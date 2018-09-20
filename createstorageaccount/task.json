@@ -1,0 +1,72 @@
+{
+    "id": "9d34bd56-d7dc-41d6-ab8f-e8d6329793c3",
+    "name": "CreateStorageAccount",
+    "friendlyName": "Create Storage Account",
+    "description": "Create Storage Account, tables, pass connection string to Key Vault",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "visibility": [
+        "Release"
+    ],
+    "author": "github.com/meanin",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Create $(storageaccountname)",
+    "groups": [
+        {
+            "name": "advanced",
+            "displayName": "Advanced",
+            "isExpanded": false
+        }
+    ],
+    "inputs": [
+        {
+            "name": "resourcegroupname",
+            "type": "string",
+            "label": "Resource Group name",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Resource Group name"
+        },
+        {
+            "name": "storageaccountname",
+            "type": "string",
+            "label": "Storage Account name",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Storage Account name"
+        },
+        {
+            "name": "location",
+            "type": "string",
+            "label": "Location",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Location"
+        },
+        {
+            "name": "sku",
+            "type": "string",
+            "label": "Sku",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Sku"
+        },
+        {
+            "name": "tablename",
+            "type": "string",
+            "label": "Table name",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Table name"
+        }
+    ],
+    "execution": {
+        "PowerShell3": {
+          "target": "createstorageaccount.ps1"
+        }
+    }
+}

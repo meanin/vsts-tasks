@@ -1,0 +1,36 @@
+{
+    "manifestVersion": 1,
+    "id": "create-storage-account",
+    "name": "Create Storage Account Release Tools",
+    "version": "0.0.1",
+    "publisher": "meanin",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "Tools for managing creation Storage Accounts and its objects.",
+    "categories": [
+        "Build and release"
+    ],
+    "icons": {
+        "default": "extension-icon.png"        
+    },
+    "files": [
+        {
+            "path": "createstorageaccount"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "create-storage-account-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "createstorageaccount"
+            }
+        }
+    ]
+}
