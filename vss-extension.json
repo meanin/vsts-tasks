@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "create-storage-account",
     "name": "Create Storage Account Release Tools",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "meanin",
     "targets": [
         {

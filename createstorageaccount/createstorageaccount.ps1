@@ -9,39 +9,46 @@ try {
     $kind="Storage"
     $tableName=Get-VstsInput -Name tablename -Require
     
+    # Initialize Azure.
+    Import-Module $PSScriptRoot\ps_modules\VstsAzureHelpers_
+    Initialize-Azure
+    
+    Write-Output "Get-AzureRmStorageAccount " $resourceGroupName "/" $storageAccountName
     $storageAccount=Get-AzureRmStorageAccount `
         -ResourceGroupName $resourceGroupName `
         -Name $storageAccountName `
-        -ErrorAction Ignore
-    
+        -ErrorAction Ignore    
     if(-not $storageAccount)
     {
+        Write-Output "Storage account does not exist. Creating with params: { "
+        Write-Output "resourceGroupName: " $resourceGroupName ", "
+        Write-Output "storageAccountName: " $storageAccountName ", "
+        Write-Output "location: " $location ", "
+        Write-Output "sku: " $sku ", "
         $storageAccount=New-AzureRmStorageAccount `
             -ResourceGroupName $resourceGroupName `
             -Name $storageAccountName `
             -Location $location `
             -SkuName $sku `
-            -Kind $kind `
-            -ErrorAction Ignore
+            -Kind $kind
     }
-    Write-Output "Get-AzureRmStorageAccount `
-        -ResourceGroupName $resourceGroupName `
-        -Name $storageAccountName" $storageAccount
+    Write-Output "Result: " $storageAccount
     
+    Write-Output "Get-AzureStorageTable " $tableName
     $table=Get-AzureStorageTable `
         -Context $storageAccount.Context `
+        -DefaultProfile $context `
         -Name $tableName `
-        -ErrorAction Ignore
-    
+        -ErrorAction Ignore 
     if(-not $table)
     {
-        New-AzureStorageTable `
+        Write-Output "Storage account table does not exist. Creating " $tableName
+        $table=New-AzureStorageTable `
             -Name $tableName `
             -Context $storageAccount.Context
     }
-    Write-Output "Get-AzureStorageTable `
-        -Context $storageAccount.Context `
-        -Name $tableName" $table
+    Write-Output "Result: " $table
+    
 } finally {
 	Trace-VstsLeavingInvocation $MyInvocation
 }
