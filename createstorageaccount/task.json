@@ -11,7 +11,7 @@
     "author": "github.com/meanin",
     "version": {
         "Major": 0,
-        "Minor": 2,
+        "Minor": 5,
         "Patch": 0
     },
     "instanceNameFormat": "Create $(storageaccountname)",
@@ -24,7 +24,40 @@
     ],
     "inputs": [
         {
-            "name": "resourcegroupname",
+            "name": "ConnectedServiceNameSelector",
+            "aliases": ["azureConnectionType"],
+            "type": "pickList",
+            "label": "Azure Connection Type",
+            "required": false,
+            "helpMarkDown": "",
+            "defaultValue": "ConnectedServiceNameARM",
+            "options": {
+                "ConnectedServiceName": "Azure Classic",
+                "ConnectedServiceNameARM": "Azure Resource Manager"
+            }
+        },
+        {
+            "name": "ConnectedServiceName",
+            "aliases": ["azureClassicSubscription"],
+            "type": "connectedService:Azure",
+            "label": "Azure Classic Subscription",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Azure Classic subscription to target for copying the files.",
+            "visibleRule": "ConnectedServiceNameSelector = ConnectedServiceName"
+        },
+        {
+            "name": "ConnectedServiceNameARM",
+            "aliases": ["azureSubscription"],
+            "type": "connectedService:AzureRM",
+            "label": "Azure Subscription",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Azure Resource Manager subscription to target for copying the files.",
+            "visibleRule": "ConnectedServiceNameSelector = ConnectedServiceNameARM"
+        },
+        {
+            "name": "ResourceGroupName",
             "type": "string",
             "label": "Resource Group name",
             "defaultValue": "",
@@ -32,7 +65,7 @@
             "helpMarkDown": "Resource Group name"
         },
         {
-            "name": "storageaccountname",
+            "name": "StorageAccountName",
             "type": "string",
             "label": "Storage Account name",
             "defaultValue": "",
@@ -40,28 +73,28 @@
             "helpMarkDown": "Storage Account name"
         },
         {
-            "name": "location",
+            "name": "Location",
             "type": "string",
             "label": "Location",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "Location"
+            "helpMarkDown": "Selected location for storage account"
         },
         {
-            "name": "sku",
+            "name": "Sku",
             "type": "string",
             "label": "Sku",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "Sku"
+            "helpMarkDown": "Selected sku"
         },
         {
-            "name": "tablename",
+            "name": "TableName",
             "type": "string",
             "label": "Table name",
             "defaultValue": "",
             "required": false,
-            "helpMarkDown": "Table name"
+            "helpMarkDown": "Selected table name, if empty, table won't be created"
         }
     ],
     "execution": {
