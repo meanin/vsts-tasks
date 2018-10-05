@@ -1,88 +1,68 @@
 [CmdletBinding()]
-param()
-
-Trace-VstsEnteringInvocation $MyInvocation
-
-$connectedServiceNameSelector = Get-VstsInput -Name ConnectedServiceNameSelector -Require
-$connectedServiceName = Get-VstsInput -Name ConnectedServiceName
-$connectedServiceNameARM = Get-VstsInput -Name ConnectedServiceNameARM
-
-if ($connectedServiceNameSelector -eq "ConnectedServiceNameARM")
-{
-    $connectedServiceName = $connectedServiceNameARM
-}
-
-$resourceGroupName=Get-VstsInput -Name ResourceGroupName -Require
-$storageAccountName=Get-VstsInput -Name StorageAccountName -Require
-$location=Get-VstsInput -Name Location -Require
-$sku=Get-VstsInput -Name Sku -Require
-$kind="Storage"
-$tableName=Get-VstsInput -Name TableName -Require
-    
-# Initialize Azure.
-Import-Module $PSScriptRoot\ps_modules\VstsAzureHelpers_
-Initialize-Azure
+param(
+    [string] [Parameter(Mandatory = $true)]
+    $ConnectedServiceName, 
+    [string] [Parameter(Mandatory = $true)]
+    $StorageAccountName, 
+    [string] [Parameter(Mandatory = $true)]
+    $Location,
+    [string] [Parameter(Mandatory = $true)]
+    $Sku,
+    [string]$TableName
+)
+$Kind="Storage"
 
 try 
-{    
-    # Importing required version of azure cmdlets according to azureps installed on machine
-    $azureUtility = Get-AzureUtility $connectedServiceName
-
-    Write-Verbose -Verbose "Loading $azureUtility"
-    . "$PSScriptRoot/$azureUtility"
-
-    # Getting connection type (Certificate/UserNamePassword/SPN) used for the task
-    $connectionType = Get-TypeOfConnection -connectedServiceName $connectedServiceName
-
-    Write-Output "Get-AzureRmStorageAccount " $resourceGroupName "/" $storageAccountName
+{   
+    $ResourceGroupName = (Get-AzureRmResourceGroup).ResourceGroupName
+    Write-Output "Get-AzureRmStorageAccount $ResourceGroupName/$StorageAccountName"
     $storageAccount=Get-AzureRmStorageAccount `
-        -ResourceGroupName $resourceGroupName `
-        -Name $storageAccountName `
-        -ErrorAction Ignore `
-        -connectionType $connectionType `
-        -connectedServiceName $connectedServiceName
+        -ResourceGroupName $ResourceGroupName `
+        -Name $StorageAccountName `
+        -ErrorAction Ignore
     if(-not $storageAccount)
     {
         Write-Output "Storage account does not exist. Creating with params: { "
-        Write-Output "resourceGroupName: " $resourceGroupName ", "
-        Write-Output "storageAccountName: " $storageAccountName ", "
-        Write-Output "location: " $location ", "
-        Write-Output "sku: " $sku " }"
+        Write-Output "ResourceGroupName: $ResourceGroupName, "
+        Write-Output "StorageAccountName: $StorageAccountName, "
+        Write-Output "Location: $Location, "
+        Write-Output "Sku: $Sku }"
         $storageAccount=New-AzureRmStorageAccount `
-            -ResourceGroupName $resourceGroupName `
-            -Name $storageAccountName `
-            -Location $location `
-            -SkuName $sku `
-            -Kind $kind `
-            -connectionType $connectionType `
-            -connectedServiceName $connectedServiceName
+            -ResourceGroupName $ResourceGroupName `
+            -Name $StorageAccountName `
+            -Location $Location `
+            -SkuName $Sku `
+            -Kind $Kind
+        Write-Output "Created: $ResourceGroupName/$StorageAccountName"
     }
-    Write-Output "Result: " $storageAccount
+    else {
+        Write-Output "Storage account already exists"
+    }
     
-    if(!$tableName)
+    if(!$TableName)
     {
         return
     }
 
-    Write-Output "Get-AzureStorageTable " $tableName
+    Write-Output "Get-AzureStorageTable $TableName "
     $table=Get-AzureStorageTable `
         -Context $storageAccount.Context `
-        -DefaultProfile $context `
-        -Name $tableName `
-        -ErrorAction Ignore  `
-        -connectionType $connectionType `
-        -connectedServiceName $connectedServiceName
+        -Name $TableName `
+        -ErrorAction Ignore
     if(-not $table)
     {
-        Write-Output "Storage account table does not exist. Creating " $tableName
+        Write-Output "Storage account table does not exist. Creating $TableName "
         $table=New-AzureStorageTable `
-            -Name $tableName `
-            -Context $storageAccount.Context `
-            -connectionType $connectionType `
-            -connectedServiceName $connectedServiceName
+            -Name $TableName `
+            -Context $storageAccount.Context
+        Write-Output "Created: $ResourceGroupName/$StorageAccountName/$TableName"
     }
-    Write-Output "Result: " $table
+    else {
+        Write-Output "Table already exists"
+    }
     
-} finally {
-	Trace-VstsLeavingInvocation $MyInvocation
+} catch 
+{
+    Write-Host $_.Exception.ToString()
+    throw
 }
