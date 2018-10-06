@@ -14,6 +14,27 @@
     "categories": [
         "Build and release"
     ],
+    "tags": [
+        "Azure",
+        "Storage",
+        "Table"
+    ],    
+    "content": {
+        "details": {
+            "path": "README.md"
+        },
+        "license": {
+            "path": "LICENSE"
+        }
+    },
+    "links": {
+        "getstarted": {
+            "uri": "https://github.com/meanin/vsts-tasks"
+        },
+        "support": {
+            "uri": "https://github.com/meanin/vsts-tasks"
+        }
+    },
     "icons": {
         "default": "extension-icon.png"        
     },
