@@ -10,8 +10,8 @@
     ],
     "author": "Paweł Ruciński - github.com/meanin <meanin@wp.pl>",
     "version": {
-        "Major": 0,
-        "Minor": 10,
+        "Major": 1,
+        "Minor": 0,
         "Patch": 0
     },
     "instanceNameFormat": "Create $(StorageAccountName)",
