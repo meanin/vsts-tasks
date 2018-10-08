@@ -1,8 +1,8 @@
 {
-    "id": "9d34bd56-d7dc-41d6-ab8f-e8d6329793c3",
-    "name": "CreateStorageAccount",
-    "friendlyName": "Create Storage Account",
-    "description": "Create Storage Account and/or table storage",
+    "id": "fdc8b8d4-78d6-4330-9299-3385f706a758",
+    "name": "AddConnectionStringToKeyVault",
+    "friendlyName": "Add connection string to Key Vault",
+    "description": "Gets Storage Account context, retreive table storage connection string and add it to Key Vault",
     "helpMarkDown": "",
     "category": "Utility",
     "visibility": [
@@ -14,7 +14,7 @@
         "Minor": 0,
         "Patch": 0
     },
-    "instanceNameFormat": "Create $(StorageAccountName)",
+    "instanceNameFormat": "Pass $(StorageAccountName)'s connection string to Key Vault",
     "groups": [
         {
             "name": "advanced",
@@ -40,11 +40,27 @@
             "helpMarkDown": "Storage Account name"
         },
         {
+            "name": "KeyVaultName",
+            "type": "string",
+            "label": "Key Vault Name",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Storage name for secrets"
+        },
+        {
+            "name": "KeyVaultKeyName",
+            "type": "string",
+            "label": "Key Vault Key Name",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Secret name, where connection string will be stored"
+        },
+        {
             "name": "Location",
             "type": "pickList",
             "label": "Location",
             "required": false,
-            "helpMarkDown": "Selected location for storage account, if not selected resource group location will be used",
+            "helpMarkDown": "Selected location for key vault, if not selected resource group location will be used",
             "defaultValue": "",
             "options": {
                 "": "Inherited from Resource Group",
@@ -76,34 +92,11 @@
                 "koreasouth": "Korea South",
                 "francecentral": "France Central"
             }
-        },
-        {
-            "name": "Sku",
-            "type": "pickList",
-            "label": "Sku",
-            "required": true,
-            "helpMarkDown": "Specifies the SKU name of the Storage account that this cmdlet creates",
-            "defaultValue": "Standard_LRS",
-            "options":{
-                "Standard_LRS": "Locally-redundant storage",
-                "Standard_ZRS": "Zone-redundant storage",
-                "Standard_GRS": "Geo-redundant storage",
-                "Standard_RAGRS": "Read access geo-redundant storage",
-                "Premium_LRS": "Premium locally-redundant storage"
-            }
-        },
-        {
-            "name": "TableName",
-            "type": "string",
-            "label": "Table name",
-            "defaultValue": "",
-            "required": false,
-            "helpMarkDown": "Selected table name, if empty, table won't be created"
         }
     ],
     "execution": {
         "AzurePowerShell": {
-          "target": "createstorageaccount.ps1"
+          "target": "connectionstringtokeyvault.ps1"
         }
     }
 }

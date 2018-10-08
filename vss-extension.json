@@ -1,8 +1,8 @@
 {
     "manifestVersion": 1,
-    "id": "create-storage-account",
-    "name": "Create Storage Account Release Tools",
-    "version": "0.1.0",
+    "id": "storage-account-managment",
+    "name": "Manage Storage Account Release Tools",
+    "version": "0.2.0",
     "publisher": "meanin",
     "public": true,
     "targets": [
@@ -17,7 +17,8 @@
     "tags": [
         "Azure",
         "Storage",
-        "Table"
+        "Table",
+        "KeyVault"
     ],    
     "content": {
         "details": {
@@ -41,6 +42,9 @@
     "files": [
         {
             "path": "createstorageaccount"
+        },
+        {
+            "path": "connectionstringtokeyvault"
         }
     ],
     "contributions": [
@@ -52,6 +56,16 @@
             ],
             "properties": {
                 "name": "createstorageaccount"
+            }
+        },
+        {
+            "id": "connection-string-to-keyvault-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "connectionstringtokeyvault"
             }
         }
     ]

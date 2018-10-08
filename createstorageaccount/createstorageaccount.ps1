@@ -3,31 +3,36 @@ param(
     [string] [Parameter(Mandatory = $true)]
     $ConnectedServiceName, 
     [string] [Parameter(Mandatory = $true)]
-    $StorageAccountName, 
+    $StorageAccountName,
     [string] [Parameter(Mandatory = $true)]
+    $Sku, 
+    [string]
     $Location,
-    [string] [Parameter(Mandatory = $true)]
-    $Sku,
-    [string]$TableName
+    [string]
+    $TableName
 )
 $Kind="Storage"
 
 try 
 {   
     $ResourceGroupName = (Get-AzureRmResourceGroup).ResourceGroupName
+    if(-not $Location)
+    {
+        $Location = (Get-AzureRmResourceGroup).Location
+    }
     Write-Output "Get-AzureRmStorageAccount $ResourceGroupName/$StorageAccountName"
-    $storageAccount=Get-AzureRmStorageAccount `
+    $StorageAccount=Get-AzureRmStorageAccount `
         -ResourceGroupName $ResourceGroupName `
         -Name $StorageAccountName `
         -ErrorAction Ignore
-    if(-not $storageAccount)
+    if(-not $StorageAccount)
     {
         Write-Output "Storage account does not exist. Creating with params: { "
         Write-Output "ResourceGroupName: $ResourceGroupName, "
         Write-Output "StorageAccountName: $StorageAccountName, "
         Write-Output "Location: $Location, "
         Write-Output "Sku: $Sku }"
-        $storageAccount=New-AzureRmStorageAccount `
+        $StorageAccount=New-AzureRmStorageAccount `
             -ResourceGroupName $ResourceGroupName `
             -Name $StorageAccountName `
             -Location $Location `
@@ -46,7 +51,7 @@ try
 
     Write-Output "Get-AzureStorageTable $TableName "
     $table=Get-AzureStorageTable `
-        -Context $storageAccount.Context `
+        -Context $StorageAccount.Context `
         -Name $TableName `
         -ErrorAction Ignore
     if(-not $table)
@@ -54,7 +59,7 @@ try
         Write-Output "Storage account table does not exist. Creating $TableName "
         $table=New-AzureStorageTable `
             -Name $TableName `
-            -Context $storageAccount.Context
+            -Context $StorageAccount.Context
         Write-Output "Created: $ResourceGroupName/$StorageAccountName/$TableName"
     }
     else {
