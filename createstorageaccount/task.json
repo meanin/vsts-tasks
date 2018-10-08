@@ -44,9 +44,10 @@
             "type": "pickList",
             "label": "Location",
             "required": false,
-            "helpMarkDown": "Selected location for storage account",
-            "defaultValue": "westeurope",
+            "helpMarkDown": "Selected location for storage account, if not selected resource group location will be used",
+            "defaultValue": "",
             "options": {
+                "": "Inherited from Resource Group",
                 "eastasia": "East Asia",
                 "southeastasia": "Southeast Asia",
                 "centralus": "Central US",

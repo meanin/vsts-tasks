@@ -1,10 +1,10 @@
 {
     "manifestVersion": 1,
     "id": "storage-account-managment",
-    "name": "Create Storage Account Release Tools",
-    "version": "0.1.9",
+    "name": "Manage Storage Account Release Tools",
+    "version": "0.2.0",
     "publisher": "meanin",
-    "public": false,
+    "public": true,
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
@@ -17,7 +17,8 @@
     "tags": [
         "Azure",
         "Storage",
-        "Table"
+        "Table",
+        "KeyVault"
     ],    
     "content": {
         "details": {

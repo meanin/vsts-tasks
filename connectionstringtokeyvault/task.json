@@ -10,9 +10,9 @@
     ],
     "author": "Paweł Ruciński - github.com/meanin <meanin@wp.pl>",
     "version": {
-        "Major": 0,
-        "Minor": 1,
-        "Patch": 9
+        "Major": 1,
+        "Minor": 0,
+        "Patch": 0
     },
     "instanceNameFormat": "Pass $(StorageAccountName)'s connection string to Key Vault",
     "groups": [
@@ -60,9 +60,10 @@
             "type": "pickList",
             "label": "Location",
             "required": false,
-            "helpMarkDown": "Selected location for storage account",
-            "defaultValue": "westeurope",
+            "helpMarkDown": "Selected location for key vault, if not selected resource group location will be used",
+            "defaultValue": "",
             "options": {
+                "": "Inherited from Resource Group",
                 "eastasia": "East Asia",
                 "southeastasia": "Southeast Asia",
                 "centralus": "Central US",

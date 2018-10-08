@@ -54,14 +54,16 @@ try
         Write-Output "Key Vault already exists"
     }
 
+    Write-Output "Setting access right to key vault for current service principal"
     Set-AzureRmKeyVaultAccessPolicy `
-    -VaultName $KeyVaultName `
-    -ResourceGroupName $ResourceGroupName `
-    -ServicePrincipalName (Get-AzureRmContext).Account `
-    -PermissionsToKeys create,delete,list `
-    -PermissionsToSecrets set,delete,list `
-    -ErrorAction Ignore
+        -VaultName $KeyVaultName `
+        -ResourceGroupName $ResourceGroupName `
+        -ServicePrincipalName (Get-AzureRmContext).Account `
+        -PermissionsToKeys create,delete,list `
+        -PermissionsToSecrets set,delete,list `
+        -ErrorAction Ignore
     
+    Write-Output "Adding key $KeyVaultKeyName"
     Add-AzureKeyVaultKey `
         -VaultName $KeyVaultName `
         -Name $KeyVaultKeyName `
@@ -69,8 +71,10 @@ try
         -ErrorAction Ignore
     
     $StorageAccountKey = Get-AzureRmStorageAccountKey -ResourceGroupName $ResourceGroupName -AccountName $StorageAccountName
-    $Secret = ConvertTo-SecureString -String $StorageAccountKey -AsPlainText -Force
-    Set-AzureKeyVaultSecret -VaultName $KeyVaultName -Name $KeyVaultKeyName -SecretValue $Secret    
+    $Secret = ConvertTo-SecureString -String $StorageAccountKey[0].Value -AsPlainText -Force
+    Set-AzureKeyVaultSecret -VaultName $KeyVaultName -Name $KeyVaultKeyName -SecretValue $Secret  
+    
+    Write-Output "Created/Filled: $KeyVaultName/$KeyVaultKeyName"    
 } catch 
 {
     Write-Host $_.Exception.ToString()
