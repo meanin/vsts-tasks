@@ -4,7 +4,7 @@
     "name": "Create Storage Account Release Tools",
     "version": "0.1.0",
     "publisher": "meanin",
-    "public": true,
+    "public": false,
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
