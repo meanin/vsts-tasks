@@ -1,8 +1,8 @@
 {
     "manifestVersion": 1,
-    "id": "create-storage-account",
+    "id": "storage-account-managment",
     "name": "Create Storage Account Release Tools",
-    "version": "0.1.0",
+    "version": "0.1.9",
     "publisher": "meanin",
     "public": false,
     "targets": [
@@ -41,6 +41,9 @@
     "files": [
         {
             "path": "createstorageaccount"
+        },
+        {
+            "path": "connectionstringtokeyvault"
         }
     ],
     "contributions": [
@@ -52,6 +55,16 @@
             ],
             "properties": {
                 "name": "createstorageaccount"
+            }
+        },
+        {
+            "id": "connection-string-to-keyvault-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "connectionstringtokeyvault"
             }
         }
     ]
