@@ -1,10 +1,10 @@
 {
     "manifestVersion": 1,
-    "id": "storage-account-managment",
-    "name": "Manage Storage Account Release Tools",
-    "version": "0.2.0",
+    "id": "storage-account-managment-private",
+    "name": "Manage Storage Account Release Tools-private",
+    "version": "0.2.1",
     "publisher": "meanin",
-    "public": true,
+    "public": false,
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
@@ -45,6 +45,9 @@
         },
         {
             "path": "connectionstringtokeyvault"
+        },
+        {
+            "path": "seedtablestorage"
         }
     ],
     "contributions": [
@@ -66,6 +69,16 @@
             ],
             "properties": {
                 "name": "connectionstringtokeyvault"
+            }
+        },
+        {
+            "id": "seed-table-storage",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "seedtablestorage"
             }
         }
     ]
