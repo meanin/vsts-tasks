@@ -4,7 +4,7 @@
     "name": "Manage Storage Account Release Tools",
     "version": "0.3.0",
     "publisher": "meanin",
-    "public": true,
+    "public": false,
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
@@ -18,7 +18,8 @@
         "Azure",
         "Storage",
         "Table",
-        "KeyVault"
+        "KeyVault",
+        "Json"
     ],    
     "content": {
         "details": {

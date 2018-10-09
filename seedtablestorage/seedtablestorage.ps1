@@ -48,36 +48,37 @@ try
 
     $List = Get-Content -Raw -Path $JsonPath | ConvertFrom-Json
     foreach ($Row in $List)
-    {        
+    {       
+        $CopyForOverride = $Row
         $PartitionKey = $Row.partitionKey
         $RowKey = $Row.rowKey
-        if($UpdateOnConflict -eq $true)
-        {
-            Write-Output "Adding row, partitionKey: $PartitionKey, rowKey: $RowKey"
-            Write-Output "Overriding if exists"   
-            $Row | Add-Member -Name 'ETag' -Type NoteProperty -Value "*"
-            $Row | Update-AzureStorageTableRow -table $table
-        }
-        else
-        {
-            try 
-            {
-                $Row.PsObject.Properties.Remove("partitionKey")
-                $Row.PsObject.Properties.Remove("rowKey")
-                $Property = @{}
-                $Row.psobject.properties | foreach { $Property[$_.Name] = $_.Value }
+        $Row.PsObject.Properties.Remove("partitionKey")
+        $Row.PsObject.Properties.Remove("rowKey")
+        $Property = @{}
+        $Row.psobject.properties | foreach { $Property[$_.Name] = $_.Value }
+        Write-Output "Adding row, partitionKey: $PartitionKey, rowKey: $RowKey"
+        Write-Output "Values: $Row"   
 
-                Write-Output "Adding row, partitionKey: $PartitionKey, rowKey: $RowKey"
-                Write-Output "Values: $Row"
-                Add-StorageTableRow `
-                    -Table $Table `
-                    -PartitionKey $PartitionKey `
-                    -RowKey $RowKey `
-                    -Property $Property                
-            }
-            catch 
+        try 
+        {
+            Add-StorageTableRow `
+                -Table $Table `
+                -PartitionKey $PartitionKey `
+                -RowKey $RowKey `
+                -Property $Property                
+        }
+        catch 
+        {
+            Write-Output "Row already exists"   
+            if($UpdateOnConflict -eq $true)
             {
-                Write-Output "Conflict. Won't override"                
+                Write-Output "Overriding row"   
+                $CopyForOverride | Add-Member -Name 'ETag' -Type NoteProperty -Value "*"
+                $CopyForOverride | Update-AzureStorageTableRow -table $table
+            }
+            else
+            {
+                Write-Output "Won't override"                
             }
         }
     }
