@@ -16,10 +16,6 @@ Install-Module -Name AzureRmStorageTable -Force -Verbose -Scope CurrentUser
 try 
 {   
     $ResourceGroupName = (Get-AzureRmResourceGroup).ResourceGroupName
-    if(-not $Location)
-    {
-        $Location = (Get-AzureRmResourceGroup).Location
-    }
     Write-Output "Get-AzureRmStorageAccount $ResourceGroupName/$StorageAccountName"
     $StorageAccount=Get-AzureRmStorageAccount `
         -ResourceGroupName $ResourceGroupName `
@@ -49,7 +45,8 @@ try
     $List = Get-Content -Raw -Path $JsonPath | ConvertFrom-Json
     foreach ($Row in $List)
     {       
-        $CopyForOverride = $Row
+        $CopyForOverride = New-Object PsObject
+        $Row.psobject.Properties | % {Add-Member -MemberType NoteProperty -InputObject $CopyForOverride -Name $_.Name -Value $_.Value}
         $PartitionKey = $Row.partitionKey
         $RowKey = $Row.rowKey
         $Row.PsObject.Properties.Remove("partitionKey")
