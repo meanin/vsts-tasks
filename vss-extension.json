@@ -4,7 +4,7 @@
     "name": "Manage Storage Account Release Tools",
     "version": "0.3.0",
     "publisher": "meanin",
-    "public": false,
+    "public": true,
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
