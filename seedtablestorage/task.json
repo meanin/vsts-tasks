@@ -10,8 +10,8 @@
     ],
     "author": "Paweł Ruciński - github.com/meanin <meanin@wp.pl>",
     "version": {
-        "Major": 0,
-        "Minor": 1,
+        "Major": 1,
+        "Minor": 0,
         "Patch": 0
     },
     "instanceNameFormat": "Seed $(StorageAccountName)/$(TableName)",
@@ -46,6 +46,22 @@
             "defaultValue": "",
             "required": true,
             "helpMarkDown": "Selected table name to seed"
+        },
+        {
+            "name": "JsonPath",
+            "type": "filePath",
+            "label": "Seed Json Path",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Fully qualified path of the json file or a path relative to the the default working directory"
+        },
+        {
+            "name": "UpdateOnConflict",
+            "type": "boolean",
+            "label": "Update Row On Conflict",
+            "defaultValue": false,
+            "required": true,
+            "helpMarkDown": "This option set to true will cause overriding values in a table storage by given from a json file"
         }
     ],
     "execution": {
