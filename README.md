@@ -24,6 +24,7 @@ Provides a possibility to create storage account and a single table on a Release
 * Set the table name if you want to create a table in newly created storage account
 
 ### 2. Add Storage Account's connection string to Key Vault
+Want to be sure that connection string to your storage account is securely stored in key vault? This task will help.
 
 #### Configure the task.
 ![alt tag](https://raw.githubusercontent.com/meanin/vsts-tasks/master/screenshots/connectionstringtokeyvault.png)
@@ -32,3 +33,32 @@ Provides a possibility to create storage account and a single table on a Release
 * Set key vault name, if not exist it will be created
 * Set key name
 * Select a location from a dropdown list, if not selected will be inherited from resource group
+
+### 3. Seed Table Storage from given json file
+Enable seeding table storage from a given json file. File should look like below:
+```
+[
+    {
+        "PartitionKey": "Partition1",
+        "RowKey": "SomeGuid1",
+        "CustomColumn": "Values1"
+        ...
+    },
+    {
+        "PartitionKey": "Partition2",
+        "RowKey": "SomeGuid2",
+        "CustomColumn": "Values2"
+        ...
+    }
+    ...
+]
+```
+Task support flat key/value list, only.
+
+#### Configure the task.
+![alt tag](https://raw.githubusercontent.com/meanin/vsts-tasks/master/screenshots/seedtablestorage.png)
+* Select an AzureRM subscription connection - use service principal scoped to one resource group
+* Set the storage account name, which you want to seed
+* Set the table name, which you want to seed
+* Select Json File path, it should be made of a list of flat key / value objects, PartitionKey and RowKey are required
+* Set Update Row On Conflict if row should be override
