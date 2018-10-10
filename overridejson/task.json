@@ -26,7 +26,7 @@
         {
             "name": "JsonPath",
             "type": "filePath",
-            "label": "Seed Json Path",
+            "label": "Json File Path",
             "defaultValue": "",
             "required": true,
             "helpMarkDown": "Fully qualified path of the json file or a path relative to the the default working directory"

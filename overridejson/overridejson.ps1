@@ -34,8 +34,9 @@ try
             $Json[$Property.Name] = $Property.Value 
         }
     }
+    
+    Write-Output "Overriding $JsonPath file"    
     $Json | ConvertTo-Json -Depth 1 | Out-File -FilePath $JsonPath
-    Write-Output "Overwriting $JsonPath file"    
 } 
 finally 
 {
