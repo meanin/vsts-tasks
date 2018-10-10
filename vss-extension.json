@@ -1,8 +1,8 @@
 {
     "manifestVersion": 1,
-    "id": "storage-account-managment-private1",
-    "name": "Manage Storage Account Release Tools-private1",
-    "version": "0.3.4",
+    "id": "storage-account-managment",
+    "name": "Manage Storage Account Release Tools",
+    "version": "0.4.0",
     "publisher": "meanin",
     "public": false,
     "targets": [

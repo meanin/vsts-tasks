@@ -62,3 +62,11 @@ Task support flat key/value list, only.
 * Set the table name, which you want to seed
 * Select Json File path, it should be made of a list of flat key / value objects, PartitionKey and RowKey are required
 * Set Update Row On Conflict if row should be override
+
+### 4. Override json config file with release variables
+Based on existing environment variables on release agent, overwrite json file properties with the same name. Setting prefix is optional. Environment variables on an Azure DevOps are set on configuring release in a variables tab, or linked from variable group.
+
+#### Configure the task.
+![alt tag](https://raw.githubusercontent.com/meanin/vsts-tasks/master/screenshots/overridejson.png)
+* Select Json File path, it should be made of a list of flat key / value objects, PartitionKey and RowKey are required
+* Optionally set prefix by which variables will be selected
