@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "storage-account-managment",
     "name": "Manage Storage Account Release Tools",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "publisher": "meanin",
     "public": true,
     "targets": [
@@ -49,6 +49,9 @@
         },
         {
             "path": "seedtablestorage"
+        },
+        {
+            "path": "overridejson"
         }
     ],
     "contributions": [
@@ -80,6 +83,16 @@
             ],
             "properties": {
                 "name": "seedtablestorage"
+            }
+        },
+        {
+            "id": "override-json",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "overridejson"
             }
         }
     ]
