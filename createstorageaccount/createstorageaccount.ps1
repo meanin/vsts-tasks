@@ -3,6 +3,8 @@ param(
     [string] [Parameter(Mandatory = $true)]
     $ConnectedServiceName, 
     [string] [Parameter(Mandatory = $true)]
+    $ResourceGroupName,
+    [string] [Parameter(Mandatory = $true)]
     $StorageAccountName,
     [string] [Parameter(Mandatory = $true)]
     $Sku, 
@@ -15,10 +17,9 @@ $Kind="Storage"
 
 try 
 {   
-    $ResourceGroupName = (Get-AzureRmResourceGroup).ResourceGroupName
     if(-not $Location)
     {
-        $Location = (Get-AzureRmResourceGroup).Location
+        $Location = (Get-AzureRmResourceGroup -Name $ResourceGroupName).Location
     }
     Write-Output "Get-AzureRmStorageAccount $ResourceGroupName/$StorageAccountName"
     $StorageAccount=Get-AzureRmStorageAccount `

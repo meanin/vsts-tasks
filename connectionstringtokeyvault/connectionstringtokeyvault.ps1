@@ -71,7 +71,7 @@ try
         -ErrorAction Ignore
     
     $StorageAccountKey = Get-AzureRmStorageAccountKey -ResourceGroupName $ResourceGroupName -AccountName $StorageAccountName
-    $ConnectionString = "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};EndpointSuffix=core.windows.net" -f $StorageAccountName, $StorageAccountKey.Primary
+    $ConnectionString = "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};EndpointSuffix=core.windows.net" -f $StorageAccountName, $StorageAccountKey[0].Value
     $Secret = ConvertTo-SecureString -String $ConnectionString -AsPlainText -Force
     Set-AzureKeyVaultSecret -VaultName $KeyVaultName -Name $KeyVaultKeyName -SecretValue $Secret  
     
