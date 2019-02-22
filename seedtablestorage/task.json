@@ -6,12 +6,13 @@
     "helpMarkDown": "",
     "category": "Utility",
     "visibility": [
+        "Build",
         "Release"
     ],
     "author": "Paweł Ruciński - github.com/meanin <meanin@wp.pl>",
     "version": {
         "Major": 1,
-        "Minor": 0,
+        "Minor": 2,
         "Patch": 0
     },
     "instanceNameFormat": "Seed $(StorageAccountName)/$(TableName)",
@@ -30,6 +31,14 @@
           "defaultValue": "",
           "required": true,
           "helpMarkDown": "Azure Resource Manager subscription where storage is."
+        },
+        {
+            "name": "ResourceGroupName",
+            "type": "string",
+            "label": "Resource Group Name",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Resource Group Name"
         },
         {
             "name": "StorageAccountName",

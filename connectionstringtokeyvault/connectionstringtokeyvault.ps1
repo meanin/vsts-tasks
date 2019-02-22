@@ -3,7 +3,11 @@ param(
     [string] [Parameter(Mandatory = $true)]
     $ConnectedServiceName, 
     [string] [Parameter(Mandatory = $true)]
+    $ResourceGroupName, 
+    [string] [Parameter(Mandatory = $true)]
     $StorageAccountName, 
+    [string] [Parameter(Mandatory = $true)]
+    $KeyVaultResourceGroupName, 
     [string] [Parameter(Mandatory = $true)]
     $KeyVaultName,
     [string] [Parameter(Mandatory = $true)]
@@ -14,10 +18,9 @@ param(
 
 try 
 {   
-    $ResourceGroupName = (Get-AzureRmResourceGroup).ResourceGroupName
     if(-not $Location)
     {
-        $Location = (Get-AzureRmResourceGroup).Location
+        $Location = (Get-AzureRmResourceGroup -Name $ResourceGroupName).Location
     }
     Write-Output "Get-AzureRmStorageAccount $ResourceGroupName/$StorageAccountName"
     $storageAccount = Get-AzureRmStorageAccount `
@@ -32,23 +35,23 @@ try
         Write-Output "Found: $ResourceGroupName/$StorageAccountName"
     }    
 
-    Write-Output "Get-AzureRmKeyVault $ResourceGroupName/$KeyVaultName"
+    Write-Output "Get-AzureRmKeyVault $KeyVaultResourceGroupName/$KeyVaultName"
     $KeyVault = Get-AzureRmKeyVault `
-        -ResourceGroupName $ResourceGroupName `
+        -ResourceGroupName $KeyVaultResourceGroupName `
         -VaultName $KeyVaultName `
         -ErrorAction Ignore
     if(-not $KeyVault)
     {
         Write-Output "Key Vault does not exist. Creating with params: { "
-        Write-Output "ResourceGroupName: $ResourceGroupName, "
+        Write-Output "ResourceGroupName: $KeyVaultResourceGroupName, "
         Write-Output "KeyVaultName: $KeyVaultName, "
         Write-Output "Location: $Location }"
         $KeyVault=New-AzureRmKeyVault `
             -VaultName $KeyVaultName `
-            -ResourceGroupName $ResourceGroupName `
+            -ResourceGroupName $KeyVaultResourceGroupName `
             -EnabledForDeployment `
             -Location $Location
-        Write-Output "Created: $ResourceGroupName/$KeyVaultName"
+        Write-Output "Created: $KeyVaultResourceGroupName/$KeyVaultName"
     }
     else {
         Write-Output "Key Vault already exists"
@@ -57,7 +60,7 @@ try
     Write-Output "Setting access right to key vault for current service principal"
     Set-AzureRmKeyVaultAccessPolicy `
         -VaultName $KeyVaultName `
-        -ResourceGroupName $ResourceGroupName `
+        -ResourceGroupName $KeyVaultResourceGroupName `
         -ServicePrincipalName (Get-AzureRmContext).Account `
         -PermissionsToKeys create,delete,list `
         -PermissionsToSecrets set,delete,list `

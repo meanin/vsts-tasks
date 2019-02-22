@@ -3,6 +3,8 @@ param(
     [string] [Parameter(Mandatory = $true)]
     $ConnectedServiceName, 
     [string] [Parameter(Mandatory = $true)]
+    $ResourceGroupName,
+    [string] [Parameter(Mandatory = $true)]
     $StorageAccountName,
     [string] [Parameter(Mandatory = $true)]
     $TableName,
@@ -15,7 +17,6 @@ param(
 Install-Module -Name AzureRmStorageTable -Force -Verbose -Scope CurrentUser
 try 
 {   
-    $ResourceGroupName = (Get-AzureRmResourceGroup).ResourceGroupName
     Write-Output "Get-AzureRmStorageAccount $ResourceGroupName/$StorageAccountName"
     $StorageAccount=Get-AzureRmStorageAccount `
         -ResourceGroupName $ResourceGroupName `
@@ -23,7 +24,7 @@ try
         -ErrorAction Ignore
     if(-not $StorageAccount)
     {
-        throw "Storage account does not exist!"
+        throw "Storage account or Resource Group does not exist!"
     }
     else {
         Write-Output "Found: $ResourceGroupName/$StorageAccountName"

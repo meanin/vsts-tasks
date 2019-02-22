@@ -6,12 +6,13 @@
     "helpMarkDown": "",
     "category": "Utility",
     "visibility": [
+        "Build",
         "Release"
     ],
     "author": "Paweł Ruciński - github.com/meanin <meanin@wp.pl>",
     "version": {
         "Major": 1,
-        "Minor": 1,
+        "Minor": 2,
         "Patch": 0
     },
     "instanceNameFormat": "Create $(StorageAccountName)",
