@@ -14,7 +14,7 @@ param(
     $UpdateOnConflict
 )
 
-Install-Module -Name AzureRmStorageTable -Force -Verbose -Scope CurrentUser
+Install-Module -Name AzureRmStorageTable -Force -Verbose -Scope CurrentUser -RequiredVersion 1.0.0.23
 try 
 {   
     Write-Output "Get-AzureRmStorageAccount $ResourceGroupName/$StorageAccountName"
